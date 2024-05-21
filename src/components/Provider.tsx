@@ -14,11 +14,12 @@ type Props = {
   cookie?: string | null;
 };
 
+const blockedenApi = process.env.NEXT_PUBLIC_BLOCKEDEN_API
+
 const { networkConfig } = createNetworkConfig({
-  localnet: { url: getFullnodeUrl("localnet") },
-  devnet: { url: getFullnodeUrl("devnet") },
-  testnet: { url: getFullnodeUrl("testnet") },
-  mainnet: { url: getFullnodeUrl("mainnet") },
+  devnet: { url: blockedenApi ? `https://api.blockeden.xyz/sui/devnet/${blockedenApi}` : getFullnodeUrl("devnet") },
+  testnet: { url: blockedenApi ? `https://api.blockeden.xyz/sui/testnet/${blockedenApi}` : getFullnodeUrl("testnet") },
+  mainnet: { url: blockedenApi ? `https://api.blockeden.xyz/sui/${blockedenApi}`: getFullnodeUrl("mainnet") },
 });
 
 export default function Providers({ children, cookie }: Props) {
