@@ -27,8 +27,12 @@ export default function Providers({ children, cookie }: Props) {
     <QueryClientProvider client={queryClient}>
       <SuiClientProvider networks={networkConfig} defaultNetwork="devnet">
         <WalletProvider autoConnect>
-          <Header />
+          <div className="relative">
+            <div className="absolute w-screen">
+              <Header />
+            </div>
             {children}
+          </div>
         </WalletProvider>
       </SuiClientProvider>
     </QueryClientProvider>

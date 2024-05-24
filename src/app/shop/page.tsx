@@ -11,9 +11,11 @@ export default function Garden() {
       <div className="flex items-center justify-center w-full min-h-main">
         <div className="gap-4 w-1/3 h-1/3 grid grid-cols-4">
           {list.map(seed => (
-            <div key={seed} className={`relative rounded-lg h-[160px] px-6 py-2 w-full cursor-pointer bg-base-200/70`}>
-              <p className="font-bold text-center">USDT-PUG</p>
-              <img src={`${seed}`} className="p-2"/>
+            <div key={seed} className={`relative rounded-lg w-full`}>
+              <button className="btn h-[160px] w-full">
+                <p className="font-bold text-center">USDT-PUG</p>
+                <img src={`${seed}`} className="p-2"/>
+              </button>
             </div>
           ))}
         </div>
