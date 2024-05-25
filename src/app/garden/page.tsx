@@ -1,5 +1,6 @@
 'use client'
 
+import Pet from "@/components/Pet";
 import { ConnectButton, useCurrentAccount } from "@mysten/dapp-kit";
 import Link from "next/link";
 
@@ -11,8 +12,19 @@ export default function Garden() {
     "/images/plants/plant2.png",
     "/images/plants/plant3.png",
   ]
+  const pets = [
+    "/images/pugmeme/pug1.webp",
+    "/images/pugmeme/pug2.webp",
+    "/images/pugmeme/pug3.webp",
+    "/images/pugmeme/pug4.webp",
+    "/images/pugmeme/pug5.webp",
+    "/images/pugmeme/pug6.webp",
+    "/images/pugmeme/pug7.webp",
+    "/images/pugmeme/pug8.webp",
+  ]
+
   return (
-    <div className="bg-cover bg-center min-h-main bg-[url('/images/bg/myGarden1.jpeg')]">
+    <div className="bg-cover relative bg-center min-h-main bg-[url('/images/bg/myGarden1.jpeg')]">
       <div className="flex items-center justify-center w-full min-h-main">
         <div className="flex justify-center gap-4">
           {plants.map(plant => (
@@ -27,6 +39,11 @@ export default function Garden() {
           ))}
         </div>
       </div>
+      {
+        pets.map(pet => (
+          <Pet key={pet} image={pet}/>
+        ))
+      }
     </div>
   );
 }

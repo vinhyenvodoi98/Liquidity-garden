@@ -13,6 +13,20 @@ const config: Config = {
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
+      keyframes: {
+        'move-right': {
+          '0%, 100%': { transform: 'translateX(0)' },
+          '50%': { transform: 'translateX(100%)' },
+        },
+        'move-right-slow': {
+          '0%, 100%': { transform: 'translateX(0)' },
+          '50%': { transform: 'translateX(100%)' },
+        },
+      },
+      animation: {
+        'move-right': 'move-right var(--animation-duration) infinite',
+        'move-right-slow': 'move-right-slow var(--animation-duration) infinite',
+      },
     },
     daisyui: {
       themes: false, // false: only light + dark | true: all themes | array: specific themes like this ["light", "dark", "cupcake"]
