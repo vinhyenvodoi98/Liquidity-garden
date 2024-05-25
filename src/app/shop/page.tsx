@@ -29,7 +29,7 @@ export default function Garden() {
           <div className="gap-4 grid grid-cols-4">
             {list.map(seed => (
               <div key={seed} className={`relative rounded-lg w-full`}>
-                <button className="btn h-[160px] w-full">
+                <button className="btn h-[160px] w-full bg-[#9C7251] hover:bg-[#E3B895] border-[#4F2B20] border-4">
                   <p className="font-bold text-center">USDT-PUG</p>
                   <img src={`${seed}`} className="p-2 h-[120px]"/>
                 </button>

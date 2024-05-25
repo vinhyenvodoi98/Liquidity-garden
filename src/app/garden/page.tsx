@@ -48,7 +48,7 @@ export default function Garden() {
           {plants.map(plant => (
             <div key={plant}>
               <div className="flex justify-center cursor-pointer">
-                <button className="btn btn-base h-16">
+                <button className="btn h-16 bg-[#9C7251] hover:bg-[#E3B895] border-[#4F2B20] border-4">
                   <img src="/images/logo/waterer.png" className="size-16 p-2 rounded-lg"/>
                 </button>
               </div>

@@ -20,11 +20,11 @@ export default function PetInfo() {
 
   return(
     <div className="absolute bottom-40 left-6">
-      <button className="btn h-16 m-2" onClick={()=> handleOpenModal()}>
+      <button className="btn h-16 m-2 bg-[#9C7251] hover:bg-[#E3B895] border-[#4F2B20] border-4" onClick={()=> handleOpenModal()}>
         <img src="/images/logo/petshop.png" className='size-14'/>
       </button>
       <dialog id="pet-info" className="modal">
-        <div className="modal-box">
+        <div className="modal-box bg-[#E3B895] border-[#4F2B20] border-4">
           <h3 className="font-bold text-lg">Pet Information</h3>
           <p className="my-4">You can have Pug pets by owned $FUD token</p>
           <div className="flex flex-col gap-4">

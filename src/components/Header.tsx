@@ -10,14 +10,14 @@ export default function Header() {
         <div className="navbar">
           <div className="navbar-start">
             <Link href='/garden'>
-              <button className="btn h-16">
+              <button className="btn h-16 bg-[#9C7251] hover:bg-[#E3B895] border-[#4F2B20] border-4">
                 <img src="/images/logo/home.png" className='size-14'/>
               </button>
             </Link>
           </div>
           <div className="navbar-end flex gap-4">
             <Link href='/shop'>
-              <button className="btn h-16">
+              <button className="btn h-16 bg-[#9C7251] hover:bg-[#E3B895] border-[#4F2B20] border-4">
                 <img src="/images/logo/shop.png" className='size-14'/>
               </button>
             </Link>
