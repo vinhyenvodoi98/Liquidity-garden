@@ -1,11 +1,17 @@
 'use client'
 
 import Pet from "@/components/Pet";
-import { ConnectButton, useCurrentAccount } from "@mysten/dapp-kit";
+import { SuiFrensCollection } from "@/constant";
+import { fetchNFTs } from "@/tools/sui-indexer";
+import { useCurrentAccount } from "@mysten/dapp-kit";
 import Link from "next/link";
+import { useEffect, useMemo, useState } from "react";
 
 export default function Garden() {
   const account = useCurrentAccount();
+
+  const [nfts, setNfts] = useState<any>([])
+
   const plants = [
     "/images/plants/plant0.png",
     "/images/plants/plant1.png",
@@ -22,6 +28,17 @@ export default function Garden() {
     "/images/pugmeme/pug7.webp",
     "/images/pugmeme/pug8.webp",
   ]
+
+  useEffect(() => {
+    const getNFT = async() =>{
+      const data = await fetchNFTs(account?.address as string, "kiosk")
+      setNfts(data.result.data)
+    }
+
+    if(account !== null && account?.address) getNFT()
+  }, [account])
+
+  const suifrens = useMemo(() => nfts.filter((nft:any) => nft.collection === SuiFrensCollection), [nfts])
 
   return (
     <div className="bg-cover relative bg-center min-h-main bg-[url('/images/bg/myGarden1.jpeg')]">
@@ -42,6 +59,11 @@ export default function Garden() {
       {
         pets.map(pet => (
           <Pet key={pet} image={pet}/>
+        ))
+      }
+      {
+        suifrens.map((suifrens:any) => (
+          <Pet key={suifrens.objectId} image={suifrens.image}/>
         ))
       }
     </div>

@@ -28,3 +28,32 @@ export async function fetchCoins(account:string) {
     return error;
   }
 }
+
+export async function fetchNFTs(account:string, type:string) {
+  try {
+    var options = {
+      method: 'GET',
+      params: {
+        account: account,
+        type: type
+      }
+    };
+    const data = await fetchData('/account/nfts', options);
+    return data
+  } catch (error) {
+    return error;
+  }
+}
+
+export async function fetchAccountCollection(account:string) {
+  try {
+    var options = {
+      method: 'GET',
+      params: { owner: account }
+    };
+    const data = await fetchData('/nft/accountCollection', options);
+    return data
+  } catch (error) {
+    return error;
+  }
+}
