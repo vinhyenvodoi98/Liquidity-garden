@@ -10,14 +10,14 @@ export default function Header() {
         <div className="navbar">
           <div className="navbar-start">
             <Link href='/garden'>
-              <button className="btn h-14">
+              <button className="btn h-16">
                 <img src="/images/logo/home.png" className='size-14'/>
               </button>
             </Link>
           </div>
           <div className="navbar-end flex gap-4">
             <Link href='/shop'>
-              <button className="btn h-14">
+              <button className="btn h-16">
                 <img src="/images/logo/shop.png" className='size-14'/>
               </button>
             </Link>

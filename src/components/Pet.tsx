@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 
-
 export default function Pet ({ image }:{image: string}) {
   const [position, setPosition] = useState({ left: 0 });
   const [speed, setSpeed] = useState("5s");

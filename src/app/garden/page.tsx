@@ -1,6 +1,7 @@
 'use client'
 
 import Pet from "@/components/Pet";
+import PetInfo from "@/components/PetInfo";
 import { SuiFrensCollection } from "@/constant";
 import { fetchNFTs } from "@/tools/sui-indexer";
 import { useCurrentAccount } from "@mysten/dapp-kit";
@@ -29,14 +30,14 @@ export default function Garden() {
     "/images/pugmeme/pug8.webp",
   ]
 
-  useEffect(() => {
-    const getNFT = async() =>{
-      const data = await fetchNFTs(account?.address as string, "kiosk")
-      setNfts(data.result.data)
-    }
+  // useEffect(() => {
+  //   const getNFT = async() =>{
+  //     const data = await fetchNFTs(account?.address as string, "kiosk")
+  //     setNfts(data.result.data)
+  //   }
 
-    if(account !== null && account?.address) getNFT()
-  }, [account])
+  //   if(account !== null && account?.address) getNFT()
+  // }, [account])
 
   const suifrens = useMemo(() => nfts.filter((nft:any) => nft.collection === SuiFrensCollection), [nfts])
 
@@ -66,6 +67,7 @@ export default function Garden() {
           <Pet key={suifrens.objectId} image={suifrens.image}/>
         ))
       }
+      <PetInfo />
     </div>
   );
 }
