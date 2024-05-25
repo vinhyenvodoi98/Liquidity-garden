@@ -1,11 +1,22 @@
 'use client'
 
-import { ConnectButton, useCurrentAccount } from "@mysten/dapp-kit";
+import { fetchCoins } from "@/tools/sui-indexer";
+import { useCurrentAccount } from "@mysten/dapp-kit";
+import { useEffect } from "react";
 
 export default function Garden() {
-
   const account = useCurrentAccount();
   const list = ["/images/seeds/seeds.png","/images/seeds/seeds1.png","/images/seeds/seeds2.png","/images/seeds/seeds3.png","/images/seeds/seeds4.png","/images/seeds/seeds5.png","/images/seeds/seeds6.png","/images/seeds/seeds7.png","/images/seeds/seeds8.png"]
+
+  // useEffect(() => {
+  //   const getCoin = async() =>{
+  //     const data = await fetchCoins("0xdda416c0bcf138251a44aa8650802b75be4699be51c4401fb51fe81791862478")
+  //     console.log({data})
+  //   }
+
+  //   getCoin()
+  // }, [])
+
   return (
     <div className="bg-cover bg-center min-h-main bg-[url('/images/bg/rack.jpeg')]">
       <div className="flex items-center justify-center w-full min-h-main">
