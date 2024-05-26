@@ -1,9 +1,48 @@
 'use client'
 
 import FlowXLiquidity from "@/components/FlowXLiquidity";
+import StakeLiquidity from "@/components/StakeLiquidity";
 
 export default function Garden() {
-  const list = ["/images/seeds/seeds.png","/images/seeds/seeds1.png","/images/seeds/seeds2.png","/images/seeds/seeds3.png","/images/seeds/seeds4.png","/images/seeds/seeds5.png","/images/seeds/seeds6.png","/images/seeds/seeds7.png","/images/seeds/seeds8.png"]
+  const list = [
+    {
+      image: "/images/seeds/seeds1.png",
+      name: "SUI+FlX",
+      lqName: "LP-0000000000000000000000000000000000000000000000000000000000000002::sui::SUI-6dae8ca14311574fdfe555524ea48558e3d1360d1607d1c7f98af867e3b7976c::flx::FLX",
+      coinX:{
+        decimals: 9,
+        iconUrl: "https://assets.coingecko.com/coins/images/26375/small/sui_asset.jpeg?1683114182",
+        name: "Sui",
+        symbol: "SUI",
+        type: "0x2::sui::SUI"
+      },
+      coinY:{
+        decimals:8,
+        iconUrl:"https://ipfs.io/ipfs/bafkreig53olo3ewrkph3hfrhjuwvuj53pmbntl2cwxd4zlyfnj5eznoxcu",
+        name:"FlowX Token",
+        symbol:"FLX",
+        type:"0x6dae8ca14311574fdfe555524ea48558e3d1360d1607d1c7f98af867e3b7976c::flx::FLX"
+      }
+    },
+    {
+      image: "/images/seeds/seeds2.png",
+      name: "SUI+FUD",
+      lqName: "LP-0000000000000000000000000000000000000000000000000000000000000002::sui::SUI-0x76cb819b01abed502bee8a702b4c2d547532c12f25001c9dea795a5e631c26f1::fud::FUD",
+      coinX:{
+        decimals: 9,
+        iconUrl: "https://assets.coingecko.com/coins/images/26375/small/sui_asset.jpeg?1683114182",
+        name: "Sui",
+        symbol: "SUI",
+        type: "0x2::sui::SUI"
+      },
+      coinY:{
+        decimals:5,
+        iconUrl: "https://imagedelivery.net/cBNDGgkrsEA-b_ixIp9SkQ/fud.png/public",
+        name: "Fud the Pug",
+        symbol: "FUD",
+        type: "0x76cb819b01abed502bee8a702b4c2d547532c12f25001c9dea795a5e631c26f1::fud::FUD"
+      }
+    },]
 
   // // Coins
   // useEffect(() => {
@@ -26,11 +65,8 @@ export default function Garden() {
         <div className="flex items-center justify-center w-full min-h-main col-span-2">
           <div className="gap-4 grid grid-cols-4">
             {list.map(seed => (
-              <div key={seed} className={`relative rounded-lg w-full`}>
-                <button className="btn h-[160px] w-full bg-[#9C7251] hover:bg-[#E3B895] border-[#4F2B20] border-4">
-                  <p className="font-bold text-center">USDT-PUG</p>
-                  <img src={`${seed}`} className="p-2 h-[120px]"/>
-                </button>
+              <div key={seed.lqName} className={`relative rounded-lg w-full`}>
+                <StakeLiquidity liquidity={seed}/>
               </div>
             ))}
           </div>
