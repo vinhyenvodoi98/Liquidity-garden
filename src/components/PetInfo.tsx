@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import FlowXSwap from "./FlowXSwap";
 
 export default function PetInfo() {
   const pets = [
@@ -37,7 +38,7 @@ export default function PetInfo() {
                   </p>
                 </div>
                 <img src={pet.image} className="size-10"/>
-                <button className="btn btn-primary w-24"> BUY $FUD</button>
+                <FlowXSwap />
               </div>
             ))}
           </div>

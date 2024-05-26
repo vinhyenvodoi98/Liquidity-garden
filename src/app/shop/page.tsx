@@ -1,10 +1,8 @@
 'use client'
 
 import FlowXLiquidity from "@/components/FlowXLiquidity";
-import { useCurrentAccount } from "@mysten/dapp-kit";
 
 export default function Garden() {
-  const account = useCurrentAccount();
   const list = ["/images/seeds/seeds.png","/images/seeds/seeds1.png","/images/seeds/seeds2.png","/images/seeds/seeds3.png","/images/seeds/seeds4.png","/images/seeds/seeds5.png","/images/seeds/seeds6.png","/images/seeds/seeds7.png","/images/seeds/seeds8.png"]
 
   // // Coins
