@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const axiosInstance = axios.create({
   baseURL: `https://api.blockeden.xyz/sui-indexer/${process.env.NEXT_PUBLIC_BLOCKEDEN_API}`,
-  timeout: 5000, // Timeout if necessary
+  timeout: 60000, // Timeout if necessary
 });
 
 
