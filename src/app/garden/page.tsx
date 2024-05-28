@@ -22,14 +22,14 @@ export default function Garden() {
     "/images/plants/plant3.png",
   ]
 
-  // useEffect(() => {
-  //   const getNFT = async() =>{
-  //     const data = await fetchNFTs(account?.address as string, "kiosk")
-  //     setNfts(data.result.data)
-  //   }
+  useEffect(() => {
+    const getNFT = async() =>{
+      const data = await fetchNFTs(account?.address as string, "kiosk")
+      setNfts(data.result.data)
+    }
 
-  //   if(account !== null && account?.address) getNFT()
-  // }, [account])
+    if(account !== null && account?.address) getNFT()
+  }, [account])
 
   // Coins
   useEffect(() => {

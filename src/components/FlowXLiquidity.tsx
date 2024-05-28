@@ -1,12 +1,15 @@
 import {ILiquidity, getLiquidity} from "@flowx-pkg/ts-sdk"
+import { useCurrentAccount } from "@mysten/dapp-kit";
 import { useEffect, useState } from "react"
 
 export default function FlowXLiquidity() {
   const [liquidityList, setLiquidityList] = useState<ILiquidity[]>([])
   const [isLoading, setIsLoading] = useState(true)
+  const account = useCurrentAccount();
+
   useEffect(() => {
     const getUserLiquidity = async () =>{
-      let address: string = "0xde8159d463efd76a5c4e684672e795d4516d46e30ad2b9907fdc2ff929d4278a" //required: user address
+      let address: string = account?.address as string //required: user address
       let sortType: string = "lpValue" //optional (lpValue, userLpBalance, totalLpSupply)
       let sortOrder: string = "ascending" //optional (ascending , descending)
       let userLiquidity: ILiquidity[] = await getLiquidity(address, sortType, sortOrder)
@@ -14,8 +17,8 @@ export default function FlowXLiquidity() {
       setIsLoading(false)
     }
 
-    getUserLiquidity()
-  }, [])
+    if(account !== null && account?.address !== undefined) getUserLiquidity()
+  }, [account])
 
   return (
     <div className="flex justify-center items-center h-screen">
@@ -39,7 +42,7 @@ export default function FlowXLiquidity() {
                   <div className="col-span-2">
                     <p className="badge bg-info/50 font-bold">{`${liquidity.coinX?.symbol} + ${liquidity.coinY?.symbol}`}</p>
                   </div>
-                  <div className="col-span-2">
+                  <div className="col-span-2 font-bold">
                     <p>{liquidity.userLpBalance}</p>
                   </div>
                 </div>
