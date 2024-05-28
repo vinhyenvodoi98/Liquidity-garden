@@ -1,11 +1,20 @@
 import { useEffect, useState } from "react"
-import { useCurrentAccount, useSignTransactionBlock } from "@mysten/dapp-kit"
+import { useCurrentAccount, useSignAndExecuteTransactionBlock, useSignTransactionBlock, useSuiClient, useSuiClientQuery } from "@mysten/dapp-kit"
 import { TransactionBlock } from "@mysten/sui.js/transactions"
 
 export default function StakeLiquidity({liquidity}:{liquidity:any}) {
   const [inputBalance, setInputBalance] = useState(0)
   const [data, setData] = useState<any>()
+  const suiClient = useSuiClient();
   const { mutate: signTransactionBlock } = useSignTransactionBlock();
+  const { mutate: signAndExecute } = useSignAndExecuteTransactionBlock();
+  // const { data: seeds, refetch } = useSuiClientQuery('getObject', {
+	// 	id,
+	// 	options: {
+	// 		showContent: true,
+	// 	},
+	// });
+
   const [signature, setSignature] = useState('');
   const account = useCurrentAccount();
   const handleOpenModal = () => {
@@ -18,10 +27,43 @@ export default function StakeLiquidity({liquidity}:{liquidity:any}) {
     setInputBalance(number)
   }
 
+  function executeMoveCall() {
+    const today = new Date()
+		const txb = new TransactionBlock();
+
+    txb.moveCall({
+      arguments: [
+        txb.pure.string("LQG"),
+        txb.pure.string("Liquidity Garden 1"),
+        [
+          txb.pure.string("url1"),
+          txb.pure.string("url2")
+        ],
+        txb.pure.u64(today.getTime()/1000)
+      ],
+      target: `0x90a6148db82f9b8e39daca2bf1398173e9dfcbbb05ab0ee08dec43f7ba9b57d5::seed::mint`,
+    });
+
+		signAndExecute(
+			{
+				transactionBlock: txb,
+        chain: 'sui:devnet',
+			},
+			{
+				onSuccess: (tx) => {
+					suiClient.waitForTransactionBlock({ digest: tx.digest }).then(() => {
+						// refetch();
+            console.log("done")
+					});
+				},
+			},
+		);
+	}
+
   const handleMint = async () => {
     // eslint-disable-next-line
     // @ts-ignore
-
+    executeMoveCall()
   }
 
   return (
