@@ -2,8 +2,9 @@
 
 import Pet from "@/components/Pet";
 import PetInfo from "@/components/PetInfo";
-import { SuiFrensCollection } from "@/constant";
-import { fetchNFTs } from "@/tools/sui-indexer";
+import PugPets from "@/components/PugPets";
+import { FudType, SuiFrensCollection } from "@/constant";
+import { fetchCoins, fetchNFTs } from "@/tools/sui-indexer";
 import { useCurrentAccount } from "@mysten/dapp-kit";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
@@ -12,22 +13,13 @@ export default function Garden() {
   const account = useCurrentAccount();
 
   const [nfts, setNfts] = useState<any>([])
+  const [coins, setCoins] = useState<any>([])
 
   const plants = [
     "/images/plants/plant0.png",
     "/images/plants/plant1.png",
     "/images/plants/plant2.png",
     "/images/plants/plant3.png",
-  ]
-  const pets = [
-    "/images/pugmeme/pug1.webp",
-    "/images/pugmeme/pug2.webp",
-    "/images/pugmeme/pug3.webp",
-    "/images/pugmeme/pug4.webp",
-    "/images/pugmeme/pug5.webp",
-    "/images/pugmeme/pug6.webp",
-    "/images/pugmeme/pug7.webp",
-    "/images/pugmeme/pug8.webp",
   ]
 
   // useEffect(() => {
@@ -39,7 +31,19 @@ export default function Garden() {
   //   if(account !== null && account?.address) getNFT()
   // }, [account])
 
+  // Coins
+  useEffect(() => {
+    const getCoin = async() =>{
+      const data = await fetchCoins(account?.address as string)
+      setCoins(data.result.coins)
+    }
+
+    if(account !== null && account?.address) getCoin()
+  }, [account])
+
   const suifrens = useMemo(() => nfts.filter((nft:any) => nft.collection === SuiFrensCollection), [nfts])
+
+  const fudBalance = useMemo(() => coins.filter((coin:any) => coin.coinType === FudType), [coins])
 
   return (
     <div className="bg-cover relative bg-center min-h-main bg-[url('/images/bg/myGarden1.jpeg')]">
@@ -57,11 +61,7 @@ export default function Garden() {
           ))}
         </div>
       </div>
-      {
-        pets.map(pet => (
-          <Pet key={pet} image={pet}/>
-        ))
-      }
+      <PugPets pugBalance={fudBalance.length !==0 ? fudBalance[0].balance/(10*fudBalance[0].decimals) : 0}/>
       {
         suifrens.map((suifrens:any) => (
           <Pet key={suifrens.objectId} image={suifrens.image}/>

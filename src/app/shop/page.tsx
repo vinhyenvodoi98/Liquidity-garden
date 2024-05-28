@@ -44,18 +44,6 @@ export default function Garden() {
       }
     },]
 
-  // // Coins
-  // useEffect(() => {
-  //   const getCoin = async() =>{
-  //     const data = await fetchCoins(account?.address as string)
-  //     console.log({data})
-  //   }
-
-  //   if(account !== null && account?.address) getCoin()
-  // }, [account])
-
-  // NFTs
-
   return (
     <div className="bg-cover bg-center min-h-main bg-[url('/images/bg/rack.jpeg')]">
       <div className="w-screen grid grid-cols-4">
