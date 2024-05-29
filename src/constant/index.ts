@@ -14,3 +14,14 @@ export const pugPrice = [
   {price: 10000000000000,image: "/images/pugmeme/pug7.webp"},
   {price: 100000000000000,image: "/images/pugmeme/pug8.webp"},
 ]
+
+export const liquidity_package_id = "0xec72abb9d1589916628cc18e0d2bf42018aa86eb3f6bf98605bc8fd56ae44122"
+
+export const liquidity_garden_type = "0xec72abb9d1589916628cc18e0d2bf42018aa86eb3f6bf98605bc8fd56ae44122::seed::Seed"
+
+export const plants = [
+    "https://bafybeig65nogsdgifptzetzukxgtrwapeac6uyzbs5cqluz5k7ypei7c2a.ipfs.w3s.link/plant0.png",
+    "https://bafybeig65nogsdgifptzetzukxgtrwapeac6uyzbs5cqluz5k7ypei7c2a.ipfs.w3s.link/plant1.png",
+    "https://bafybeig65nogsdgifptzetzukxgtrwapeac6uyzbs5cqluz5k7ypei7c2a.ipfs.w3s.link/plant2.png",
+    "https://bafybeig65nogsdgifptzetzukxgtrwapeac6uyzbs5cqluz5k7ypei7c2a.ipfs.w3s.link/plant3.png",
+  ]

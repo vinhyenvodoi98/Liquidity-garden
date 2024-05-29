@@ -1,13 +1,14 @@
-import { useEffect, useState } from "react"
-import { useCurrentAccount, useSignTransactionBlock } from "@mysten/dapp-kit"
+import { useState } from "react"
+import { useSignAndExecuteTransactionBlock, useSuiClient } from "@mysten/dapp-kit"
 import { TransactionBlock } from "@mysten/sui.js/transactions"
+import { liquidity_package_id, plants } from "@/constant"
+import { toast } from "react-toastify";
 
 export default function StakeLiquidity({liquidity}:{liquidity:any}) {
   const [inputBalance, setInputBalance] = useState(0)
-  const [data, setData] = useState<any>()
-  const { mutate: signTransactionBlock } = useSignTransactionBlock();
-  const [signature, setSignature] = useState('');
-  const account = useCurrentAccount();
+  const suiClient = useSuiClient();
+  const { mutate: signAndExecute } = useSignAndExecuteTransactionBlock();
+
   const handleOpenModal = () => {
     // eslint-disable-next-line
     // @ts-ignore
@@ -18,10 +19,44 @@ export default function StakeLiquidity({liquidity}:{liquidity:any}) {
     setInputBalance(number)
   }
 
-  const handleMint = async () => {
-    // eslint-disable-next-line
-    // @ts-ignore
+  function executeMoveCall() {
+    const today = new Date()
+		const txb = new TransactionBlock();
+    // const endTime = new Date(today.setDate(today.getDate() - Number(2)))
 
+    txb.moveCall({
+      arguments: [
+        txb.pure("LQG"),
+        txb.pure("Liquidity Garden NFT"),
+        txb.pure(plants),
+        txb.pure((today.getTime() - (today.getTime()%1000))/1000)
+      ],
+      target: `${liquidity_package_id}::seed::mint`,
+    });
+
+		signAndExecute(
+			{
+				transactionBlock: txb,
+        chain: 'sui:devnet',
+			},
+			{
+				onSuccess: (tx) => {
+					suiClient.waitForTransactionBlock({ digest: tx.digest }).then(() => {
+            toast.success(
+              `Transaction has been created successfully:
+              https://suiscan.xyz/devnet/tx/${tx.digest}`
+            );
+					});
+				},
+        onError: (e) => {
+          console.log("error: ", e)
+        }
+			},
+		);
+	}
+
+  const handleMint = async () => {
+    executeMoveCall()
   }
 
   return (
