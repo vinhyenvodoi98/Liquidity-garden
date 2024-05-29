@@ -1,5 +1,6 @@
 "use client";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ToastContainer } from "react-toastify";
 import { getFullnodeUrl } from "@mysten/sui.js/client";
 import {
   SuiClientProvider,
@@ -35,6 +36,7 @@ export default function Providers({ children, cookie }: Props) {
           </div>
         </WalletProvider>
       </SuiClientProvider>
+      <ToastContainer position="bottom-right" newestOnTop />
     </QueryClientProvider>
   );
 }

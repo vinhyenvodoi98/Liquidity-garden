@@ -3,6 +3,7 @@ import {Amount, calculateAmountOut, swapExactInput} from "@flowx-pkg/ts-sdk"
 import { FudType, SuiType } from "@/constant"
 import { useCurrentAccount, useSignTransactionBlock } from "@mysten/dapp-kit"
 import { TransactionBlock } from "@mysten/sui.js/transactions"
+import { toast } from "react-toastify"
 
 export default function FlowXSwap() {
   const [inputBalance, setInputBalance] = useState(0)
@@ -65,6 +66,10 @@ export default function FlowXSwap() {
       {
         onSuccess: (result) => {
           console.log('signed transaction block', result);
+          toast.success(
+            `signed transaction block:
+            ${result}`
+          );
           setSignature(result.signature);
         },
       },

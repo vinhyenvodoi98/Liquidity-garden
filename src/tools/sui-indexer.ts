@@ -29,7 +29,7 @@ export async function fetchCoins(account:string) {
   }
 }
 
-export async function fetchNFTs(account:string, type:string) {
+export async function fetchNFTs(account:string, type?:string) {
   try {
     var options = {
       method: 'GET',
