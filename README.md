@@ -1,6 +1,60 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Project
 
-## Getting Started
+![cover](https://github.com/vinhyenvodoi98/Liquidity-garden/blob/main/images/cover.png)
+
+Wellcome to Liquidity Garden
+
+## Introduction
+"Liquidity-garden" is a game that falls under the farm simulation genre. In this game, players are tasked with building and managing their own farm garden. The main elements of the game include:
+
+1. Building and Managing the Farm: Players have to **stake liquidity** from **FlowX Dex** to by NFT seed, then the player must water it every day. Because the tree is a dynamic NFT, it will change shape if watered enough. The tree will release $OXYGEN tokens every day and depending on its lifespan, the amount of $OXYGEN will be different.
+
+2. Raise pets: Currently we have 2 types of Pet
+- Fud the pug pets: We will convert the amount of $FUD tokens that users own to different pets.Game also integrates **swap** $FUD tokens from $SUI for users right in the game using **flowx's sdk**
+- SuiFrens: Those who own Suifrens NFT will also receive pets
+
+When you have digital pets, they will help you take care the garden, so the number of $OXYGEN tokens will increase
+
+## How we build project
+
+Smartcontract: Build by Move language
+
+Frontend: Build with Nextjs, ts, tailwind
+
+RPC + Indexer : [Blockeden.xyz](https://blockeden.xyz/docs/sui/sui-overflow/)
+
+Swap, get liquidity balance: [FlowX sdk](https://www.npmjs.com/package/@flowx-pkg/ts-sdk?activeTab=readme)
+
+Interact :
+  - [Fud the Pug](https://fudthepug.com/): Distribute pets based on the amount of FUD owned
+  - [SuiFriend](https://suifrens.com/) : Show Capy as pets
+
+## What we do during hackathon
+
+- We have built a smart contract and frontend that can interact with each other and deployed on mainnet
+- Integrates swap feature from flowX
+- Use indexer from blockeden to query data
+- Creating a new use for the FUD token
+- SuiFriend's NFT integration
+
+## What's problem
+
+- First time using Move to write smart contract
+- First time learning about Sui and its components
+
+## Plan for future
+
+- UI/UX improvements
+- Develop tokenomics for $OXYGEN token
+- Create interaction between users' gardens
+
+## How to run project
+
+### Frontend
+Install package
+```bash
+npm install
+```
 
 First, run the development server:
 
@@ -10,27 +64,6 @@ npm run dev
 yarn dev
 # or
 pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
