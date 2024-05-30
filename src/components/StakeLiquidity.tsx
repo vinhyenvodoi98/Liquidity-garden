@@ -12,7 +12,7 @@ export default function StakeLiquidity({liquidity}:{liquidity:any}) {
   const handleOpenModal = () => {
     // eslint-disable-next-line
     // @ts-ignore
-    document.getElementById('open-swap').showModal()
+    document.getElementById('open-stake-liquidity').showModal()
   }
 
   const handleInput = (number: number) => {
@@ -77,7 +77,7 @@ export default function StakeLiquidity({liquidity}:{liquidity:any}) {
         </div>
       </div>
     </button>
-    <dialog id="open-swap" className="modal">
+    <dialog id="open-stake-liquidity" className="modal">
       <div className="modal-box bg-[#E3B895] border-[#4F2B20] border-4 grid gap-4">
         <h3 className="font-bold text-lg">Stake liquidity token and get plant</h3>
         <label className="form-control w-full">

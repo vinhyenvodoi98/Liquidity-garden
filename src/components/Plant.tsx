@@ -3,6 +3,7 @@ import { useSignAndExecuteTransactionBlock, useSuiClient } from "@mysten/dapp-ki
 import { TransactionBlock } from "@mysten/sui.js/transactions";
 import { useMemo } from "react";
 import { toast } from "react-toastify";
+import UnstakeLiquidity from "./UnstakeLiquidity";
 
 export default function Plant({plant}:any) {
   const { mutate: signAndExecute } = useSignAndExecuteTransactionBlock();
@@ -75,12 +76,7 @@ export default function Plant({plant}:any) {
           <div className="h-16"/>
         }
       </div>
-      <div className="bg-[#9C7251] border-[#4F2B20] border-4 rounded-lg h-72 w-44 p-2 mt-2 font-bold flex flex-col items-center">
-        <p>Age: {plant.data.content.fields.age}</p>
-        <div>
-          <img src={PlantURL} className="h-60"/>
-        </div>
-      </div>
+      <UnstakeLiquidity plantUrl={PlantURL} plant={plant}/>
     </div>
   )
 }

@@ -16,6 +16,10 @@ export default function Header() {
             </Link>
           </div>
           <div className="navbar-end flex gap-4">
+            <div className='h-16 bg-[#9C7251] border-[#4F2B20] border-4 flex gap-4 rounded-lg p-3 w-40 items-end'>
+              <img src="/images/logo/oxygen.webp" className='rounded-full h-8' />
+              <p className='font-bold text-2xl'>0</p>
+            </div>
             <Link href='/shop'>
               <button className="btn h-16 bg-[#9C7251] hover:bg-[#E3B895] border-[#4F2B20] border-4">
                 <img src="/images/logo/shop.png" className='size-14'/>
