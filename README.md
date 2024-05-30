@@ -49,6 +49,9 @@ Interact :
 - UI/UX improvements
 - Develop tokenomics for $OXYGEN token
 - Create interaction between users' gardens
+- Can stake liquidity of many DEX
+- Build community
+- Multi chains supported
 
 ## How to run project
 
