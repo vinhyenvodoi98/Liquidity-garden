@@ -36,6 +36,8 @@ Interact :
 - Use indexer from blockeden to query data
 - Creating a new use for the FUD token
 - SuiFriend's NFT integration
+- Stake FlowX liquidity token and mint Dynamic NFT Seed
+- Player water plants every day and receive **closed-loop token: $Oxygen**
 
 ## What's problem
 
