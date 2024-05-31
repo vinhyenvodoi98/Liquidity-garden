@@ -2,6 +2,7 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ToastContainer } from "react-toastify";
 import { getFullnodeUrl } from "@mysten/sui.js/client";
+import 'react-toastify/ReactToastify.min.css';
 import {
   SuiClientProvider,
   WalletProvider,
@@ -32,11 +33,11 @@ export default function Providers({ children, cookie }: Props) {
             <div className="absolute w-screen">
               <Header />
             </div>
+            <ToastContainer position="bottom-right" newestOnTop />
             {children}
           </div>
         </WalletProvider>
       </SuiClientProvider>
-      <ToastContainer position="bottom-right" newestOnTop />
     </QueryClientProvider>
   );
 }
