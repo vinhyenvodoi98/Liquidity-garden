@@ -22,14 +22,14 @@ export default function StakeLiquidity({liquidity}:{liquidity:any}) {
   function executeMoveCall() {
     const today = new Date()
 		const txb = new TransactionBlock();
-    // const endTime = new Date(today.setDate(today.getDate() - Number(2)))
+    const endTime = new Date(today.setDate(today.getDate() - Number(2)))
 
     txb.moveCall({
       arguments: [
         txb.pure("LQG"),
         txb.pure("Liquidity Garden NFT"),
         txb.pure(plants),
-        txb.pure((today.getTime() - (today.getTime()%1000))/1000)
+        txb.pure((endTime.getTime() - (endTime.getTime()%1000))/1000)
       ],
       target: `${liquidity_package_id}::seed::mint`,
     });

@@ -15,6 +15,7 @@ export default function Plant({plant}:any) {
 
     txb.moveCall({
       arguments: [
+        txb.object("0x156fa70a8b5581408303ff7c2576c40472943cc948eed30648d5b50b19f15c8e"),
         txb.object(plant.data.objectId),
         txb.pure((today.getTime() - (today.getTime()%1000))/1000)
       ],
@@ -35,6 +36,9 @@ export default function Plant({plant}:any) {
             );
 					});
 				},
+        onError: (e) => {
+          console.log("error: ", e)
+        }
 			},
 		);
 	}
