@@ -13,8 +13,19 @@ export default function Plant({plant}:any) {
     const today = new Date()
 		const txb = new TransactionBlock();
 
+    // let tokenType = '0x2::token::TokenPolicy<0x785b1d84d8ae9275f5134b1065671da4656c85ae0d7b0555f665e589b49abfe8::oxygen::OXYGEN>';
+
+    // let treasuryCapArg = txb.object('0x368d5ac54627f14fa6d421738e1386454d251b19ff02f8900b6d0dc29d599afb');
+
+    // let token = txb.moveCall({
+    //   target: '0x2::token::mint',
+    //   arguments: [treasuryCapArg, txb.pure.u64(10)],
+    //   typeArguments: [tokenType],
+    // });
+
     txb.moveCall({
       arguments: [
+        // token,
         txb.object(plant.data.objectId),
         txb.pure((today.getTime() - (today.getTime()%1000))/1000)
       ],
@@ -35,6 +46,9 @@ export default function Plant({plant}:any) {
             );
 					});
 				},
+        onError: (error) => {
+          console.log(error)
+        }
 			},
 		);
 	}

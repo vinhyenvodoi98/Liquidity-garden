@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
-import {Amount, calculateAmountOut, swapExactInput} from "@flowx-pkg/ts-sdk"
+import { Amount, calculateAmountOut, swapExactInput, txBuild, estimateGasFee, getSmartRouting } from "@flowx-pkg/ts-sdk"
 import { FudType, SuiType } from "@/constant"
-import { useCurrentAccount, useSignTransactionBlock } from "@mysten/dapp-kit"
+import { useCurrentAccount, useSignAndExecuteTransactionBlock, useSignTransactionBlock, useSuiClient } from "@mysten/dapp-kit"
 import { TransactionBlock } from "@mysten/sui.js/transactions"
 import { toast } from "react-toastify"
 
@@ -9,8 +9,9 @@ export default function FlowXSwap() {
   const [inputBalance, setInputBalance] = useState(0)
   const [outputBalance, setOutputBalance] = useState<Amount>()
   const [data, setData] = useState<any>()
+  const suiClient = useSuiClient();
   const { mutate: signTransactionBlock } = useSignTransactionBlock();
-  const [signature, setSignature] = useState('');
+  const { mutate: signAndExecute } = useSignAndExecuteTransactionBlock();
   const account = useCurrentAccount();
   const handleOpenModal = () => {
     // eslint-disable-next-line
@@ -58,20 +59,25 @@ export default function FlowXSwap() {
       0.005 //slippage (0.05%)
     );
 
-    signTransactionBlock(
+    signAndExecute(
       {
         transactionBlock: tx,
         chain: 'sui:mainnet',
       },
       {
-        onSuccess: (result) => {
-          console.log('signed transaction block', result);
-          toast.success(
-            `signed transaction block:
-            ${result}`
-          );
-          setSignature(result.signature);
+        onSuccess: (tx) => {
+          console.log('signed transaction block', tx);
+          suiClient.waitForTransactionBlock({ digest: tx.digest }).then(() => {
+            toast.success(
+              `Transaction has been created successfully:
+              https://suiscan.xyz/devnet/tx/${tx.digest}`
+            );
+					});
+
         },
+        onError: (e)=>{
+          console.log(e)
+        }
       },
     );
   }
