@@ -1,16 +1,20 @@
 import { useEffect, useState } from "react"
-import { Amount, calculateAmountOut, swapExactInput, txBuild, estimateGasFee, getSmartRouting } from "@flowx-pkg/ts-sdk"
+import { Amount, calculateAmountOut, swapExactInput, txBuild, estimateGasFee, getSmartRouting, ISmartPathV3 } from "@flowx-pkg/ts-sdk"
 import { FudType, SuiType } from "@/constant"
 import { useCurrentAccount, useSignAndExecuteTransactionBlock, useSignTransactionBlock, useSuiClient } from "@mysten/dapp-kit"
 import { TransactionBlock } from "@mysten/sui.js/transactions"
 import { toast } from "react-toastify"
 
+interface ISmartRouting {
+	paths: ISmartPathV3[],
+	amountOut:string
+}
+
 export default function FlowXSwap() {
   const [inputBalance, setInputBalance] = useState(0)
   const [outputBalance, setOutputBalance] = useState<Amount>()
-  const [data, setData] = useState<any>()
+  const [path, setPath] = useState<any>()
   const suiClient = useSuiClient();
-  const { mutate: signTransactionBlock } = useSignTransactionBlock();
   const { mutate: signAndExecute } = useSignAndExecuteTransactionBlock();
   const account = useCurrentAccount();
   const handleOpenModal = () => {
@@ -38,9 +42,25 @@ export default function FlowXSwap() {
 
   useEffect(() => {
     const calculate = async () =>{
-      const data = await calculateAmountOut(inputBalance, coinIn, coinOut);
-      setOutputBalance(data.amountOut)
-      setData(data)
+      // const data = await calculateAmountOut(inputBalance, coinIn, coinOut);
+      // setData(data)
+
+      const smartRouting:ISmartRouting  = await getSmartRouting({
+        coinInType: coinIn.type,
+        coinOutType: coinOut.type,
+        amountIn: (inputBalance*10**(coinIn.decimals)).toString(),
+        signal: null,
+        insludeSource: false,
+        // source,
+        // partnerFee
+      })
+      setOutputBalance({
+        amount: (Number(smartRouting.amountOut)/10**(coinOut.decimals)).toString(),
+        decimalAmount: smartRouting.amountOut
+      })
+
+      setPath(smartRouting.paths)
+      console.log(smartRouting)
     }
     if(inputBalance > 0 && account) calculate()
   }, [inputBalance, account])
@@ -48,16 +68,45 @@ export default function FlowXSwap() {
   const handleSwap = async () => {
     // eslint-disable-next-line
     // @ts-ignore
-    const tx: TransactionBlock = await swapExactInput(
-      false, //it should be false for now
-      data.amountIn, //amount want to swap
-      data.amountOut, //amount want to receive
-      data.trades, //trades from calculate amount
-      coinIn, //coin In data
-      coinOut, //coin Out data
-      account?.address as string,
-      0.005 //slippage (0.05%)
-    );
+    const tx: TransactionBlock = await txBuild({
+      listSmartPath:path,
+      slippage: 0.01,
+      tokenIn: {
+        type: coinIn.type,
+        amount: (inputBalance*10**(coinIn.decimals)).toString()
+      },
+      tokenOut: {
+        type: coinOut.type,
+        amount: outputBalance?.decimalAmount as string
+      },
+      account: account?.address as string
+    })
+
+    // swap v2
+    // const tx:TransactionBlock = await txBuild({
+    //   listSmartPath:path,
+    //   slippage: 0.005,
+    //   tokenIn: {
+    //     type: coinIn.type,
+    //     amount: (inputBalance*10**(coinIn.decimals)).toString()
+    //   },
+    //   tokenOut: {
+    //     type: coinOut.type,
+    //     amount: result?.amountOut as string
+    //   },
+    //   account: account?.address as string
+    // })
+
+    // const tx: TransactionBlock = await swapExactInput(
+    //   false, //it should be false for now
+    //   data.amountIn, //amount want to swap
+    //   data.amountOut, //amount want to receive
+    //   data.trades, //trades from calculate amount
+    //   coinIn, //coin In data
+    //   coinOut, //coin Out data
+    //   account?.address as string,
+    //   0.005 //slippage (0.05%)
+    // );
 
     signAndExecute(
       {

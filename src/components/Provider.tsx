@@ -1,7 +1,7 @@
 "use client";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ToastContainer } from "react-toastify";
-import { getFullnodeUrl } from "@mysten/sui.js/client";
+// import { getFullnodeUrl } from "@mysten/sui.js/client";
 import 'react-toastify/ReactToastify.min.css';
 import {
   SuiClientProvider,
@@ -19,9 +19,9 @@ type Props = {
 const blockedenApi = process.env.NEXT_PUBLIC_BLOCKEDEN_API
 
 const { networkConfig } = createNetworkConfig({
-  devnet: { url: blockedenApi ? `https://api.blockeden.xyz/sui/devnet/${blockedenApi}` : getFullnodeUrl("devnet") },
-  testnet: { url: blockedenApi ? `https://api.blockeden.xyz/sui/testnet/${blockedenApi}` : getFullnodeUrl("testnet") },
-  mainnet: { url: blockedenApi ? `https://api.blockeden.xyz/sui/${blockedenApi}`: getFullnodeUrl("mainnet") },
+  devnet: { url:`https://api.blockeden.xyz/sui/devnet/${blockedenApi}`},
+  testnet: { url:`https://api.blockeden.xyz/sui/testnet/${blockedenApi}`},
+  mainnet: { url:`https://api.blockeden.xyz/sui/${blockedenApi}`},
 });
 
 export default function Providers({ children, cookie }: Props) {
