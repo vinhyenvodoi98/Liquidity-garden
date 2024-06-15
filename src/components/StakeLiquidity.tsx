@@ -12,7 +12,7 @@ export default function StakeLiquidity({liquidity}:{liquidity:any}) {
   const handleOpenModal = () => {
     // eslint-disable-next-line
     // @ts-ignore
-    document.getElementById('open-stake-liquidity').showModal()
+    document.getElementById(`open-stake-liquidity-${liquidity.coinX?.symbol} + ${liquidity.coinY?.symbol}`).showModal()
   }
 
   const handleInput = (number: number) => {
@@ -22,14 +22,14 @@ export default function StakeLiquidity({liquidity}:{liquidity:any}) {
   function executeMoveCall() {
     const today = new Date()
 		const txb = new TransactionBlock();
-    // const endTime = new Date(today.setDate(today.getDate() - Number(2)))
+    const endTime = new Date(today.setDate(today.getDate() - Number(1)))
 
     txb.moveCall({
       arguments: [
         txb.pure("LQG"),
         txb.pure("Liquidity Garden NFT"),
         txb.pure(plants),
-        txb.pure((today.getTime() - (today.getTime()%1000))/1000)
+        txb.pure((endTime.getTime() - (endTime.getTime()%1000))/1000)
       ],
       target: `${liquidity_package_id}::seed::mint`,
     });
@@ -77,7 +77,7 @@ export default function StakeLiquidity({liquidity}:{liquidity:any}) {
         </div>
       </div>
     </button>
-    <dialog id="open-stake-liquidity" className="modal">
+    <dialog id={`open-stake-liquidity-${liquidity.coinX?.symbol} + ${liquidity.coinY?.symbol}`} className="modal">
       <div className="modal-box bg-[#E3B895] border-[#4F2B20] border-4 grid gap-4">
         <h3 className="font-bold text-lg">Stake liquidity token and get plant</h3>
         <label className="form-control w-full">

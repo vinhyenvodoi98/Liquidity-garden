@@ -25,7 +25,6 @@ export default function Plant({plant}:any) {
 
     txb.moveCall({
       arguments: [
-        // token,
         txb.object(plant.data.objectId),
         txb.pure((today.getTime() - (today.getTime()%1000))/1000)
       ],
