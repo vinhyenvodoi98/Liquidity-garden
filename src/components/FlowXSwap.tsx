@@ -60,7 +60,6 @@ export default function FlowXSwap() {
       })
 
       setPath(smartRouting.paths)
-      console.log(smartRouting)
     }
     if(inputBalance > 0 && account) calculate()
   }, [inputBalance, account])
@@ -70,7 +69,7 @@ export default function FlowXSwap() {
     // @ts-ignore
     const tx: TransactionBlock = await txBuild({
       listSmartPath:path,
-      slippage: 0.01,
+      slippage: 0.005,
       tokenIn: {
         type: coinIn.type,
         amount: (inputBalance*10**(coinIn.decimals)).toString()

@@ -27,7 +27,7 @@ const { networkConfig } = createNetworkConfig({
 export default function Providers({ children, cookie }: Props) {
   return (
     <QueryClientProvider client={queryClient}>
-      <SuiClientProvider networks={networkConfig} defaultNetwork="devnet">
+      <SuiClientProvider networks={networkConfig} defaultNetwork="mainnet">
         <WalletProvider autoConnect>
           <div className="relative">
             <div className="absolute w-screen">

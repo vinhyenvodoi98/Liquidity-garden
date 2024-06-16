@@ -15,9 +15,9 @@ export const pugPrice = [
   {price: 100000000000000,image: "/images/pugmeme/pug8.webp"},
 ]
 
-export const liquidity_package_id = "0xf89a7d285e9241ab64a311c9133226498403381a31fc7fb51498f95fd92941ef"
+export const liquidity_package_id = "0x785b1d84d8ae9275f5134b1065671da4656c85ae0d7b0555f665e589b49abfe8"
 
-export const liquidity_garden_type = "0xf89a7d285e9241ab64a311c9133226498403381a31fc7fb51498f95fd92941ef::seed::Seed"
+export const liquidity_garden_type = "0x785b1d84d8ae9275f5134b1065671da4656c85ae0d7b0555f665e589b49abfe8::seed::Seed"
 
 export const plants = [
     "https://bafybeig65nogsdgifptzetzukxgtrwapeac6uyzbs5cqluz5k7ypei7c2a.ipfs.w3s.link/plant0.png",
