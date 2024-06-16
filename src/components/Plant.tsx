@@ -1,8 +1,8 @@
-import { liquidity_package_id } from "@/constant";
+import { liquidity_package_id, oxygen_treasurycap_id } from "@/constant";
 import { useSignAndExecuteTransactionBlock, useSuiClient } from "@mysten/dapp-kit";
 import { TransactionBlock } from "@mysten/sui.js/transactions";
 import { useMemo } from "react";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import UnstakeLiquidity from "./UnstakeLiquidity";
 
 export default function Plant({plant}:any) {
@@ -25,6 +25,7 @@ export default function Plant({plant}:any) {
 
     txb.moveCall({
       arguments: [
+        txb.object(oxygen_treasurycap_id),
         txb.object(plant.data.objectId),
         txb.pure((today.getTime() - (today.getTime()%1000))/1000)
       ],

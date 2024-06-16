@@ -15,9 +15,17 @@ export const pugPrice = [
   {price: 100000000000000,image: "/images/pugmeme/pug8.webp"},
 ]
 
-export const liquidity_package_id = "0x785b1d84d8ae9275f5134b1065671da4656c85ae0d7b0555f665e589b49abfe8"
+// export const liquidity_package_id = "0x17c80d3a338a1d5fff6d5d37c7680c16a832f03d8f5a4fc4157afe50d75211a0"
 
-export const liquidity_garden_type = "0x785b1d84d8ae9275f5134b1065671da4656c85ae0d7b0555f665e589b49abfe8::seed::Seed"
+// export const liquidity_garden_type = "0x17c80d3a338a1d5fff6d5d37c7680c16a832f03d8f5a4fc4157afe50d75211a0::seed::Seed"
+
+export const liquidity_package_id = "0xca8d7862185ba5664b46fc1745828bb819e4d959bf90eb0f4b20adb6485b607e"
+
+export const liquidity_garden_type = "0xca8d7862185ba5664b46fc1745828bb819e4d959bf90eb0f4b20adb6485b607e::seed::Seed"
+
+export const oxygen_treasurycap_id = "0xcc32ceaa87c6fed9eda0ac4816fd5bddf6fb11278166a045c3a5f5dc8da7eee6"
+
+export const oxygen_type = "0xca8d7862185ba5664b46fc1745828bb819e4d959bf90eb0f4b20adb6485b607e::oxygen::OXYGEN"
 
 export const plants = [
     "https://bafybeig65nogsdgifptzetzukxgtrwapeac6uyzbs5cqluz5k7ypei7c2a.ipfs.w3s.link/plant0.png",
