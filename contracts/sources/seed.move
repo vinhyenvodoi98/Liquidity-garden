@@ -1,7 +1,10 @@
-/// Module: contracts
 module liquidity_garden::seed {
+    use liquidity_garden::oxygen::OXYGEN;
+    use sui::token::{Self, Token, ActionRequest};
     use std::string;
     use sui::event;
+    use sui::address;
+    use sui::coin::{Self, Coin, TreasuryCap};
 
     const ENotAuthorized: u64 = 0;
 
@@ -12,6 +15,7 @@ module liquidity_garden::seed {
         url: vector<string::String>,
         age: u64,
         last_checkin: u64,
+        oxy_balance: u64,
     }
 
     public struct SeedEvent has copy, drop {
@@ -20,6 +24,12 @@ module liquidity_garden::seed {
         name: string::String,
         age: u64,
         last_checkin: u64,
+        oxy_balance: u64,
+    }
+
+    public struct BalanceOf has key, store { 
+        id: UID,
+        user: address,
     }
 
     public fun mint(
@@ -36,6 +46,7 @@ module liquidity_garden::seed {
             url: url,
             age: 0,
             last_checkin: epoch,
+            oxy_balance: 0,
         };
 
         let sender = tx_context::sender(ctx);
@@ -46,6 +57,7 @@ module liquidity_garden::seed {
             name: nft.name,
             age: nft.age,
             last_checkin: epoch,
+            oxy_balance: nft.oxy_balance,
         });
 
         transfer::public_transfer(nft, sender);
@@ -58,13 +70,20 @@ module liquidity_garden::seed {
         nft.description = string::utf8(new_description)
     }
 
-    public entry fun checkin(
+    public fun checkin(
+        treasury_cap: &mut TreasuryCap<OXYGEN>,
         nft: &mut Seed,
         epoch: u64,
-        ctx: &TxContext,
+        ctx: &mut TxContext,
     ) {
         assert!(epoch > nft.last_checkin + 86400, ENotAuthorized);
         nft.age = nft.age + 1;
+        nft.last_checkin = nft.last_checkin + 86400;
+        nft.oxy_balance = nft.oxy_balance + 1;
+
+        let sender = tx_context::sender(ctx);
+
+        coin::mint_and_transfer(treasury_cap, 1000000000000000000, sender, ctx)
     }
 
     public fun last_checkin(nft: &Seed) : &u64 {
@@ -75,14 +94,12 @@ module liquidity_garden::seed {
        tx_context::epoch(ctx)
     }
 
-    /// Permanently delete `nft`
-    public entry fun burn(nft: Seed) {
-        let Seed { id, name: _, description: _, url: _, age: _, last_checkin: _ } = nft;
-        object::delete(id)
-    }
-
     public fun age(nft: &Seed): &u64 {
         &nft.age
+    }
+
+    public fun get_oxy_balance(nft: &Seed): &u64 {
+        &nft.oxy_balance
     }
 
     public fun name(nft: &Seed): &string::String {
@@ -93,62 +110,51 @@ module liquidity_garden::seed {
         &nft.description
     }
 
-    public fun url(nft: &Seed): &vector<string::String> {
-        &nft.url
+    public fun url(nft: &Seed): &string::String {
+        if (nft.age < 10) {
+            &nft.url[0]
+        } else if (nft.age < 20) {
+            &nft.url[1]
+        } else {
+            &nft.url[2]
+        }
     }
 }
 
-#[test_only]
-module liquidity_garden::seedTests {
-    use liquidity_garden::seed::{Self, Seed};
-    use sui::test_scenario as ts;
-    use std::string;
-    use std::debug;
+module liquidity_garden::oxygen {
+    use sui::coin::{Self, Coin, TreasuryCap};
+    use sui::token::{Self, ActionRequest, Token};
+    use sui::balance::{Self, Supply, Balance};
 
-    #[test]
-    fun mint_transfer_update() {
-        let addr1 = @0xA;
-        let addr2 = @0xB;
+    public struct OXYGEN has drop {}
 
-        let url1 = b"https://example1.com".to_string();
-        let url2 = b"https://example2.com".to_string();
+    #[allow(unused_function)]
+    /// Register the OXYGEN currency to acquire its `TreasuryCap`. Because
+    /// this is a module initializer, it ensures the currency only gets
+    /// registered once.
+    fun init(witness: OXYGEN, ctx: &mut TxContext) {
+        // Get a treasury cap for the coin and give it to the transaction sender
+        let (treasury_cap, metadata) = coin::create_currency<OXYGEN>(witness, 18, b"OXYGEN", b"OXYGEN", b"Liquidity Garden", option::none(), ctx);
+        transfer::public_freeze_object(metadata);
+        transfer::public_transfer(treasury_cap, tx_context::sender(ctx))
+        // transfer::public_transfer(treasury_cap, @0x7c8a6553842c74789b470e85417499fcaf2d7ce59c829c40f237aa162548ad46)
+    }
 
-        let mut url_list : vector<string::String> = vector[];
-        vector::push_back(&mut url_list, url1);
-        vector::push_back(&mut url_list, url2);
-        // create the NFT
-        let mut scenario = ts::begin(addr1);
-        {
-            seed::mint(b"LQG", b"Liquidity Garden", url_list, 1716905148, ts::ctx(&mut scenario))
-        };
-        // send it from A to B
-        ts::next_tx(&mut scenario, addr1);
-        {
-            let nft = ts::take_from_sender<Seed>(&scenario);
-            transfer::public_transfer(nft, addr2);
-        };
-        // update its description
-        ts::next_tx(&mut scenario, addr2);
-        {
-            let mut nft = ts::take_from_sender<Seed>(&scenario);
-            seed::update_description(&mut nft, b"LP Garden") ;
-            assert!(*string::bytes(seed::description(&nft)) == b"LP Garden", 0);
+    /// Manager can mint new coins
+    public entry fun mint(
+        treasury_cap: &mut TreasuryCap<OXYGEN>, amount: u64, recipient: address, ctx: &mut TxContext
+    ) {
+        coin::mint_and_transfer(treasury_cap, amount, recipient, ctx)
+    }
 
-            debug::print(seed::last_checkin(&nft));
-            debug::print(seed::name(&nft));
-            debug::print(seed::url(&nft));
-            seed::checkin(&mut nft, 1716905148 + 90000, ts::ctx(&mut scenario));
-            debug::print(seed::age(&nft));
-            let time : u64 = seed::get_now(ts::ctx(&mut scenario));
-            debug::print(&time);
-            ts::return_to_sender(&scenario, nft);
-        };
-        // burn it
-        ts::next_tx(&mut scenario, addr2);
-        {
-            let nft = ts::take_from_sender<Seed>(&scenario);
-            seed::burn(nft)
-        };
-        ts::end(scenario);
+    /// Manager can burn coins
+    public entry fun burn(treasury_cap: &mut TreasuryCap<OXYGEN>, coin: Coin<OXYGEN>) {
+        coin::burn(treasury_cap, coin);
+    }
+
+    #[test_only]
+    /// Wrapper of module initializer for testing
+    public fun test_init(ctx: &mut TxContext) {
+        init(OXYGEN {}, ctx)
     }
 }
