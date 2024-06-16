@@ -1,9 +1,8 @@
 import { useState } from "react";
 import FlowXSwap from "./FlowXSwap";
 import { pugPrice } from "@/constant";
-import Link from "next/link";
 
-export default function PetInfo() {
+export default function PetInfo({pugBalance}:{pugBalance:number}) {
   const [currentTab, setCurrentTab] = useState<number>(0);
 
   const handleOpenModal = () => {
@@ -26,7 +25,7 @@ export default function PetInfo() {
               <a onClick={() => setCurrentTab(1)} role="tab" className={`tab ${currentTab === 1 && 'tab-active'}`}>SuiFrens</a>
             </div>
             {
-              currentTab === 0 ? <FudInfo/>: <SuiFrensInfo/>
+              currentTab === 0 ? <FudInfo pugBalance={pugBalance}/>: <SuiFrensInfo/>
             }
           </div>
 
@@ -39,10 +38,13 @@ export default function PetInfo() {
   )
 }
 
-const FudInfo = () =>{
+const FudInfo = ({pugBalance}:{pugBalance:number}) =>{
   return(
     <div>
-      <p className="my-4">You can have Pug pets by owned $FUD token</p>
+      <div className="flex justify-between">
+        <p className="my-2">You can have Pug pets by owned $FUD token</p>
+        <p className="my-2 text-end">$FUD Balance: {pugBalance.toString()}</p>
+      </div>
       <div className="flex flex-col gap-4">
         {pugPrice.map((pet, index) => (
           <div key={index} className="grid grid-cols-8">

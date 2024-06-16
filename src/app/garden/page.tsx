@@ -64,7 +64,7 @@ export default function Garden() {
           <Pet key={suifrens.objectId} image={suifrens.image}/>
         ))
       }
-      <PetInfo />
+      <PetInfo pugBalance={fudBalance.length !==0 ? fudBalance[0].balance/(10*fudBalance[0].decimals) : 0}/>
     </div>
   );
 }
